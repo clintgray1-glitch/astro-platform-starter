@@ -1,35 +1,12 @@
 {
-  "name": "astro-netlify-platform-starter",
-  "type": "module",
-  "version": "0.1.0",
+  "name": "cybersecurity-update",
+  "version": "1.0.0",
+  "description": "Admin By Request Cybersecurity Update",
+  "main": "index.html",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "netlify dev"
   },
   "dependencies": {
-    "@astrojs/netlify": "^5.2.0",
-    "@astrojs/react": "^3.3.0",
-    "@astrojs/tailwind": "^5.1.0",
-    "@fontsource/inter": "^5.0.18",
-    "@netlify/blobs": "^8.1.0",
-    "@netlify/functions": "^2.8.2",
-    "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25",
-    "astro": "^4.16.18",
-    "blobshape": "^1.0.0",
-    "marked": "^13.0.0",
-    "marked-shiki": "^1.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwindcss": "^3.4.3",
-    "unique-names-generator": "^4.7.1"
-  },
-  "devDependencies": {
-    "@types/blobshape": "^1.0.3",
-    "@types/node": "^20.12.7",
-    "daisyui": "^4.10.2"
+    "node-fetch": "^2.6.7"
   }
 }

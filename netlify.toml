@@ -1,0 +1,8 @@
+[build]
+  command = "echo 'No build command needed'"
+  publish = "./"
+
+[[redirects]]
+  from = "/success"
+  to = "/success.html"
+  status = 200
