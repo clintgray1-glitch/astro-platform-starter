@@ -835,6 +835,191 @@ nav ul li a.active:after {
     text-align: center;
 }
 
+/* Trends Section */
+.trends {
+    padding: 80px 0;
+    background-color: var(--dark-bg);
+}
+
+.trends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.trend-card {
+    background-color: var(--light-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.trend-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--burnt-sienna);
+}
+
+.trend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.trend-header h3 {
+    color: var(--white);
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.severity {
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.severity.critical {
+    background-color: var(--critical-color);
+    color: var(--white);
+}
+
+.severity.high {
+    background-color: var(--high-color);
+    color: var(--white);
+}
+
+.severity.medium {
+    background-color: var(--medium-color);
+    color: var(--white);
+}
+
+.severity.emerging {
+    background-color: var(--emerging-color);
+    color: var(--white);
+}
+
+.severity.info {
+    background-color: var(--info-color);
+    color: var(--white);
+}
+
+.trend-card p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.trend-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.learn-more {
+    color: var(--burnt-sienna);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.learn-more:hover {
+    color: #e05a40;
+    background-color: rgba(240, 112, 87, 0.1);
+}
+
+/* Navigation Styles */
+nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 0.5rem;
+}
+
+nav ul li a:hover {
+    color: var(--burnt-sienna);
+}
+
+.btn-contact {
+    background-color: transparent;
+    border: 2px solid var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    color: var(--white);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+}
+
+.btn-contact:hover {
+    background-color: var(--burnt-sienna);
+    border-color: var(--burnt-sienna);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* Button Styles */
+.button,
+.btn-primary {
+    display: inline-block;
+    background-color: var(--burnt-sienna);
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: var(--card-shadow);
+}
+
+.button:hover,
+.btn-primary:hover {
+    background-color: #e05a40;
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(240, 112, 87, 0.3);
+}
+
+/* Form Button Styles */
+.btn-submit {
+    display: inline-block;
+    background-color: var(--burnt-sienna);
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: var(--card-shadow);
+}
+
+.btn-submit:hover {
+    background-color: #e05a40;
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(240, 112, 87, 0.3);
+}
+
 /* Preview Section */
 .preview-section {
     padding: 80px 0;

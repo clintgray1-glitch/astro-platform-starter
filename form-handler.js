@@ -72,30 +72,27 @@ function initializeForm() {
 
             console.log('Form submitted:', formObject);
 
+            // Hide error message if present
+            formError.style.display = 'none';
+
             // Submit to Netlify
             fetch('/', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/json'
+                },
+                body: new URLSearchParams(formData)
             })
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error('Failed to submit form to Netlify');
                 }
-
-                // Forward data to Mailchimp via Netlify function
-                return fetch('/.netlify/functions/mailchimp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formObject)
-                });
+                return response.json();
             })
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('Failed to submit form to Mailchimp');
-                }
-
+            .then(function(data) {
+                console.log('Form submission successful:', data);
+                
                 // Hide form and show success message
                 form.style.display = 'none';
                 formSuccess.style.display = 'block';
@@ -106,10 +103,12 @@ function initializeForm() {
             })
             .catch(function(error) {
                 console.error('Error submitting form:', error);
+                formError.textContent = 'There was an error submitting the form. Please try again.';
                 formError.style.display = 'block';
             });
         } catch (error) {
-            console.error('Error submitting form:', error);
+            console.error('Error processing form:', error);
+            formError.textContent = 'There was an error processing the form. Please try again.';
             formError.style.display = 'block';
         }
     });
