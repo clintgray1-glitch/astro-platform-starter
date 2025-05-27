@@ -77,37 +77,21 @@ function initializeForm() {
                     throw new Error('Failed to submit form to Netlify');
                 }
 
-                // Forward data to Mailchimp via Netlify function
-                return fetch('/.netlify/functions/mailchimp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formObject)
-                });
-            })
-            .then(function(response) {
-                if (!response.ok) {
-                    return response.json().then(data => {
-                        throw new Error(`Mailchimp error: ${data.error || response.statusText}`);
-                    });
-                }
-
                 // Hide form and show success message
                 form.style.display = 'none';
                 formSuccess.style.display = 'block';
                 
                 // Generate and show report
                 generateReport(formData);
-                previewSection.style.display = 'block';
             })
             .catch(function(error) {
-                console.error('Form submission error:', error);
-                formError.innerHTML = `<p>Oops! There was an error submitting the form: ${error.message}</p>`;
+                console.error('Error:', error);
+                formError.textContent = 'There was an error submitting the form: ' + error.message;
                 formError.style.display = 'block';
             });
         } catch (error) {
-            console.error('Error submitting form:', error);
+            console.error('Error:', error);
+            formError.textContent = 'There was an error processing the form: ' + error.message;
             formError.style.display = 'block';
         }
     });
