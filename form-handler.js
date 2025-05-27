@@ -4,6 +4,7 @@ function initializeForm() {
     var previewSection = document.getElementById('preview-section');
     var formSuccess = document.querySelector('.form-success');
     var formError = document.querySelector('.form-error');
+    var backButton = document.getElementById('back-to-home');
 
     if (!form) {
         console.error('Form element not found');
@@ -18,8 +19,8 @@ function initializeForm() {
     // Function to generate custom report content based on form data
     function generateReport(formData) {
         var reportPreview = document.getElementById('report-preview');
-        var topics = formData.get('topics') ? formData.get('topics').split(',') : [];
         var industry = formData.get('INDUSTRY');
+        var challenges = formData.get('CHALLENGES') || 'Not specified';
         
         // Create report content
         var reportContent = 
@@ -33,13 +34,9 @@ function initializeForm() {
             '<p>Based on your industry selection, we\'ve tailored our recommendations to your specific needs.</p>' +
             '</div>' +
             
-            '<div class="report-topics">' +
-            '<h3>Selected Topics of Interest</h3>' +
-            '<ul>' +
-            topics.map(function(topic) {
-                return '<li>' + topic.replace(/-/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); }) + '</li>';
-            }).join('') +
-            '</ul>' +
+            '<div class="report-challenges">' +
+            '<h3>Your Cybersecurity Challenges</h3>' +
+            '<p>' + challenges + '</p>' +
             '</div>' +
             
             '<div class="report-recommendations">' +
@@ -49,6 +46,14 @@ function initializeForm() {
 
         // Update the report preview section
         reportPreview.innerHTML = reportContent;
+    }
+
+    // Back to home button handler
+    if (backButton) {
+        backButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '#';
+        });
     }
 
     // Form submission handler
@@ -77,21 +82,34 @@ function initializeForm() {
                     throw new Error('Failed to submit form to Netlify');
                 }
 
+                // Forward data to Mailchimp via Netlify function
+                return fetch('/.netlify/functions/mailchimp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formObject)
+                });
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Failed to submit form to Mailchimp');
+                }
+
                 // Hide form and show success message
                 form.style.display = 'none';
                 formSuccess.style.display = 'block';
                 
                 // Generate and show report
                 generateReport(formData);
+                previewSection.style.display = 'block';
             })
             .catch(function(error) {
-                console.error('Error:', error);
-                formError.textContent = 'There was an error submitting the form: ' + error.message;
+                console.error('Error submitting form:', error);
                 formError.style.display = 'block';
             });
         } catch (error) {
-            console.error('Error:', error);
-            formError.textContent = 'There was an error processing the form: ' + error.message;
+            console.error('Error submitting form:', error);
             formError.style.display = 'block';
         }
     });
