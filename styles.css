@@ -833,7 +833,7 @@ nav ul li a.active:after {
     padding: 12px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
     color: var(--text-light);
     font-family: inherit;
     font-size: 1rem;
@@ -846,7 +846,7 @@ nav ul li a.active:after {
     outline: none;
     border-color: var(--burnt-sienna);
     box-shadow: 0 0 0 2px rgba(240, 112, 87, 0.2);
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .checkbox-consent {

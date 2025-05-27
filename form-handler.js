@@ -73,7 +73,7 @@ function initializeForm() {
             'INDUSTRY': formData.get('INDUSTRY'),
             'CHALLENGES': formData.get('CHALLENGES'),
             'gdpr[e8166047db]': formData.get('gdpr[e8166047db]'),
-            'topics': Array.from(formData.getAll('topics'))
+            'topics': Array.from(formData.getAll('topics')).join(',')
         };
     }
 
@@ -100,6 +100,34 @@ function initializeForm() {
                 },
                 body: new URLSearchParams(formObject)
             })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Failed to submit form to Netlify');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                console.log('Netlify response:', data);
+                
+                // Hide form and show success message
+                form.style.display = 'none';
+                formSuccess.style.display = 'block';
+                
+                // Generate and show report
+                generateReport(formData);
+                previewSection.style.display = 'block';
+            })
+            .catch(function(error) {
+                console.error('Error submitting form:', error);
+                formError.textContent = 'There was an error submitting the form. Please try again.';
+                formError.style.display = 'block';
+            });
+        } catch (error) {
+            console.error('Error processing form:', error);
+            formError.textContent = 'There was an error processing the form. Please try again.';
+            formError.style.display = 'block';
+        }
+    });
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error('Failed to submit form to Netlify');
