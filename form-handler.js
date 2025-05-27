@@ -1,54 +1,70 @@
 // Form handler for generating custom report
 function initializeForm() {
-    var form = document.querySelector('.report-form');
-    var previewSection = document.getElementById('preview-section');
-    var formSuccess = document.querySelector('.form-success');
-    var formError = document.querySelector('.form-error');
-    var backButton = document.getElementById('back-to-home');
+    // Get all required elements
+    const form = document.querySelector('.report-form');
+    const previewSection = document.getElementById('preview-section');
+    const formSuccess = document.querySelector('.form-success');
+    const formError = document.querySelector('.form-error');
+    const backButton = document.getElementById('back-to-home');
+    const reportPreview = document.getElementById('report-preview');
 
-    if (!form) {
-        console.error('Form element not found');
-        return;
-    }
-
-    if (!previewSection) {
-        console.error('Preview section element not found');
+    // Check if all required elements exist
+    if (!form || !previewSection || !formSuccess || !formError || !reportPreview) {
+        console.error('Missing required elements:', {
+            form: !!form,
+            previewSection: !!previewSection,
+            formSuccess: !!formSuccess,
+            formError: !!formError,
+            reportPreview: !!reportPreview
+        });
         return;
     }
 
     // Function to generate custom report content based on form data
     function generateReport(formData) {
-        var reportPreview = document.getElementById('report-preview');
-        var industry = formData.get('INDUSTRY');
-        var challenges = formData.get('CHALLENGES') || 'Not specified';
-        var topics = Array.from(formData.getAll('topics')).join(', ');
+        const industry = formData.get('INDUSTRY');
+        const challenges = formData.get('CHALLENGES') || 'Not specified';
+        const topics = Array.from(formData.getAll('topics')).join(', ');
         
         // Create report content
-        var reportContent = 
-            '<div class="report-header">' +
-            '<h2>Custom Cybersecurity Report</h2>' +
-            '<p>Generated for ' + formData.get('FNAME') + ' ' + formData.get('LNAME') + ' at ' + formData.get('COMPANY') + '</p>' +
-            '</div>' +
+        const reportContent = `
+            <div class="report-header">
+                <h2>Custom Cybersecurity Report</h2>
+                <p>Generated for ${formData.get('FNAME')} ${formData.get('LNAME')} at ${formData.get('COMPANY')}</p>
+            </div>
             
-            '<div class="report-industry">' +
-            '<h3>Industry Focus: ' + industry + '</h3>' +
-            '<p>Based on your industry selection, we\'ve tailored our recommendations to your specific needs.</p>' +
-            '</div>' +
+            <div class="report-industry">
+                <h3>Industry Focus: ${industry}</h3>
+                <p>Based on your industry selection, we've tailored our recommendations to your specific needs.</p>
+            </div>
             
-            '<div class="report-topics">' +
-            '<h3>Selected Topics of Interest</h3>' +
-            '<p>' + topics + '</p>' +
-            '</div>' +
+            <div class="report-topics">
+                <h3>Selected Topics of Interest</h3>
+                <p>${topics}</p>
+            </div>
             
-            '<div class="report-challenges">' +
-            '<h3>Your Cybersecurity Challenges</h3>' +
-            '<p>' + challenges + '</p>' +
-            '</div>' +
+            <div class="report-challenges">
+                <h3>Your Cybersecurity Challenges</h3>
+                <p>${challenges}</p>
+            </div>
             
-            '<div class="report-recommendations">' +
-            '<h3>Custom Recommendations</h3>' +
-            '<p>Our team will be in touch to provide detailed insights and solutions tailored to your specific needs.</p>' +
-            '</div>';
+            <div class="report-recommendations">
+                <h3>Custom Recommendations</h3>
+                <p>Our team will be in touch to provide detailed insights and solutions tailored to your specific needs.</p>
+            </div>
+        `;
+
+        // Update the report preview section
+        reportPreview.innerHTML = reportContent;
+    }
+
+    // Back to home button handler
+    if (backButton) {
+        backButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '#';
+        });
+    }
 
         // Update the report preview section
         reportPreview.innerHTML = reportContent;
@@ -78,13 +94,13 @@ function initializeForm() {
     }
 
     // Form submission handler
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         try {
             // Get form data
-            var formData = new FormData(form);
-            var formObject = formatForMailchimp(formData);
+            const formData = new FormData(form);
+            const formObject = formatForMailchimp(formData);
             
             console.log('Form submitted:', formObject);
 
@@ -92,39 +108,33 @@ function initializeForm() {
             formError.style.display = 'none';
 
             // Submit to Netlify
-            fetch('/', {
+            const response = await fetch('/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Accept': 'application/json'
                 },
                 body: new URLSearchParams(formObject)
-            })
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('Failed to submit form to Netlify');
-                }
-                return response.json();
-            })
-            .then(function(data) {
-                console.log('Netlify response:', data);
-                
-                // Hide form and show success message
-                form.style.display = 'none';
-                formSuccess.style.display = 'block';
-                
-                // Generate and show report
-                generateReport(formData);
-                previewSection.style.display = 'block';
-            })
-            .catch(function(error) {
-                console.error('Error submitting form:', error);
-                formError.textContent = 'There was an error submitting the form. Please try again.';
-                formError.style.display = 'block';
             });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit form to Netlify');
+            }
+
+            const data = await response.json();
+            console.log('Netlify response:', data);
+
+            // Hide form and show success message
+            form.style.display = 'none';
+            formSuccess.style.display = 'block';
+
+            // Generate and show report
+            generateReport(formData);
+            previewSection.style.display = 'block';
+
         } catch (error) {
-            console.error('Error processing form:', error);
-            formError.textContent = 'There was an error processing the form. Please try again.';
+            console.error('Error submitting form:', error);
+            formError.textContent = 'There was an error submitting the form. Please try again.';
             formError.style.display = 'block';
         }
     });
