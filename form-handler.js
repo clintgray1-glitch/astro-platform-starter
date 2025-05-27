@@ -21,6 +21,7 @@ function initializeForm() {
         var reportPreview = document.getElementById('report-preview');
         var industry = formData.get('INDUSTRY');
         var challenges = formData.get('CHALLENGES') || 'Not specified';
+        var topics = Array.from(formData.getAll('topics')).join(', ');
         
         // Create report content
         var reportContent = 
@@ -32,6 +33,11 @@ function initializeForm() {
             '<div class="report-industry">' +
             '<h3>Industry Focus: ' + industry + '</h3>' +
             '<p>Based on your industry selection, we\'ve tailored our recommendations to your specific needs.</p>' +
+            '</div>' +
+            
+            '<div class="report-topics">' +
+            '<h3>Selected Topics of Interest</h3>' +
+            '<p>' + topics + '</p>' +
             '</div>' +
             
             '<div class="report-challenges">' +
@@ -56,6 +62,21 @@ function initializeForm() {
         });
     }
 
+    // Function to format data for Mailchimp
+    function formatForMailchimp(formData) {
+        return {
+            'FNAME': formData.get('FNAME'),
+            'LNAME': formData.get('LNAME'),
+            'EMAIL': formData.get('EMAIL'),
+            'COMPANY': formData.get('COMPANY'),
+            'JOBTITLE': formData.get('JOBTITLE'),
+            'INDUSTRY': formData.get('INDUSTRY'),
+            'CHALLENGES': formData.get('CHALLENGES'),
+            'gdpr[e8166047db]': formData.get('gdpr[e8166047db]'),
+            'topics': Array.from(formData.getAll('topics'))
+        };
+    }
+
     // Form submission handler
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -63,13 +84,8 @@ function initializeForm() {
         try {
             // Get form data
             var formData = new FormData(form);
-            var formObject = {};
+            var formObject = formatForMailchimp(formData);
             
-            // Convert FormData to object
-            for (var pair of formData.entries()) {
-                formObject[pair[0]] = pair[1];
-            }
-
             console.log('Form submitted:', formObject);
 
             // Hide error message if present
@@ -82,13 +98,12 @@ function initializeForm() {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Accept': 'application/json'
                 },
-                body: new URLSearchParams(formData)
+                body: new URLSearchParams(formObject)
             })
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error('Failed to submit form to Netlify');
                 }
-                // Don't try to parse JSON, just check if response is ok
                 return response.text();
             })
             .then(function(data) {
@@ -113,7 +128,7 @@ function initializeForm() {
             formError.style.display = 'block';
         }
     });
-
+}
     console.log('Form handler initialized successfully');
 }
 

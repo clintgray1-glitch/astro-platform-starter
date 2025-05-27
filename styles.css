@@ -768,13 +768,41 @@ nav ul li a.active:after {
 .checkbox-item {
     display: flex;
     align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.checkbox-item:hover {
+    background-color: rgba(240, 112, 87, 0.1);
+}
+
+.checkbox-item label {
+    margin-left: 1rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    color: var(--text-light);
 }
 
 .checkbox-item input[type="checkbox"] {
-    margin-right: 10px;
-    width: 18px;
-    height: 18px;
-    accent-color: var(--primary-color);
+    width: 20px;
+    height: 20px;
+    accent-color: var(--burnt-sienna);
+    cursor: pointer;
+}
+
+.checkbox-item input[type="checkbox"]:checked + label {
+    color: var(--burnt-sienna);
+}
+
+.checkbox-item input[type="checkbox"]:checked {
+    background-color: var(--burnt-sienna);
+    border-color: var(--burnt-sienna);
+}
+
+.checkbox-item input[type="checkbox"]:checked:hover {
+    background-color: #e05a40;
 }
 
 .form-row {
@@ -805,18 +833,20 @@ nav ul li a.active:after {
     padding: 12px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
-    background-color: var(--light-bg);
+    background-color: rgba(255, 255, 255, 0.1);
     color: var(--text-light);
     font-family: inherit;
     font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    border-color: var(--burnt-sienna);
+    box-shadow: 0 0 0 2px rgba(240, 112, 87, 0.2);
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .checkbox-consent {
@@ -1044,12 +1074,15 @@ nav ul li a:hover {
     font-weight: 600;
     font-size: 2rem;
     margin-bottom: 1rem;
+    color: var(--burnt-sienna);
 }
 
 .preview-header .accent-text {
-    color: var(--primary-color);
+    color: var(--burnt-sienna);
     margin-bottom: 0.5rem;
     display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
 }
 
 .report-preview {
@@ -1059,6 +1092,69 @@ nav ul li a:hover {
     border-radius: 8px;
     border: 1px solid var(--border-color);
     color: var(--text-light);
+}
+
+/* Report Header Styles */
+.report-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.report-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--burnt-sienna);
+}
+
+.report-header > p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+/* Report Content Styles */
+.report-industry,
+.report-topics,
+.report-challenges,
+.report-recommendations {
+    margin-bottom: 40px;
+    padding: 30px;
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.report-industry h3,
+.report-topics h3,
+.report-challenges h3,
+.report-recommendations h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--burnt-sienna);
+    margin-bottom: 1rem;
+}
+
+.report-industry p,
+.report-topics p,
+.report-challenges p,
+.report-recommendations p {
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+/* Preview Actions */
+.preview-actions {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.preview-actions .btn-secondary {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
 }
 
 /* Report Header Styles */
