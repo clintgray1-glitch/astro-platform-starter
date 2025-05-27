@@ -1,58 +1,59 @@
-// Form handler for generating custom report
-function initializeForm() {
-    // Get all required elements
+// Simple report generation handler
+function generateReport() {
+    // Get form data
     const form = document.querySelector('.report-form');
-    const previewSection = document.getElementById('preview-section');
-    const formSuccess = document.querySelector('.form-success');
-    const formError = document.querySelector('.form-error');
-    const backButton = document.getElementById('back-to-home');
-    const reportPreview = document.getElementById('report-preview');
-
-    // Check if all required elements exist
-    if (!form || !previewSection || !formSuccess || !formError || !reportPreview) {
-        console.error('Missing required elements:', {
-            form: !!form,
-            previewSection: !!previewSection,
-            formSuccess: !!formSuccess,
-            formError: !!formError,
-            reportPreview: !!reportPreview
-        });
-        return;
-    }
-
-    // Function to generate custom report content based on form data
-    function generateReport(formData) {
-        const industry = formData.get('INDUSTRY');
-        const challenges = formData.get('CHALLENGES') || 'Not specified';
-        const topics = Array.from(formData.getAll('topics')).join(', ');
+    const formData = new FormData(form);
+    
+    // Get values
+    const industry = formData.get('INDUSTRY');
+    const challenges = formData.get('CHALLENGES') || 'Not specified';
+    const topics = Array.from(formData.getAll('topics')).join(', ');
+    
+    // Create report content
+    const reportContent = `
+        <div class="report-header">
+            <h2>Custom Cybersecurity Report</h2>
+            <p>Generated for ${formData.get('FNAME')} ${formData.get('LNAME')} at ${formData.get('COMPANY')}</p>
+        </div>
         
-        // Create report content
-        const reportContent = `
-            <div class="report-header">
-                <h2>Custom Cybersecurity Report</h2>
-                <p>Generated for ${formData.get('FNAME')} ${formData.get('LNAME')} at ${formData.get('COMPANY')}</p>
-            </div>
-            
-            <div class="report-industry">
-                <h3>Industry Focus: ${industry}</h3>
-                <p>Based on your industry selection, we've tailored our recommendations to your specific needs.</p>
-            </div>
-            
-            <div class="report-topics">
-                <h3>Selected Topics of Interest</h3>
-                <p>${topics}</p>
-            </div>
-            
-            <div class="report-challenges">
-                <h3>Your Cybersecurity Challenges</h3>
-                <p>${challenges}</p>
-            </div>
-            
-            <div class="report-recommendations">
-                <h3>Custom Recommendations</h3>
-                <p>Our team will be in touch to provide detailed insights and solutions tailored to your specific needs.</p>
-            </div>
-        `;
+        <div class="report-industry">
+            <h3>Industry Focus: ${industry}</h3>
+            <p>Based on your industry selection, we've tailored our recommendations to your specific needs.</p>
+        </div>
+        
+        <div class="report-topics">
+            <h3>Selected Topics of Interest</h3>
+            <p>${topics}</p>
+        </div>
+        
+        <div class="report-challenges">
+            <h3>Your Cybersecurity Challenges</h3>
+            <p>${challenges}</p>
+        </div>
+        
+        <div class="report-recommendations">
+            <h3>Custom Recommendations</h3>
+            <p>Our team will be in touch to provide detailed insights and solutions tailored to your specific needs.</p>
+        </div>
+    `;
+
+    // Update the report preview
+    const reportPreview = document.getElementById('report-preview');
+    if (reportPreview) {
+        reportPreview.innerHTML = reportContent;
+    }
+}
+
+// Generate report when form is submitted
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.report-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            generateReport();
+        });
+    }
+});
 
         // Update the report preview section
         reportPreview.innerHTML = reportContent;
@@ -66,16 +67,19 @@ function initializeForm() {
         });
     }
 
-        // Update the report preview section
-        reportPreview.innerHTML = reportContent;
-    }
-
-    // Back to home button handler
-    if (backButton) {
-        backButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = '#';
-        });
+    // Function to format data for Mailchimp
+    function formatForMailchimp(formData) {
+        return {
+            'FNAME': formData.get('FNAME'),
+            'LNAME': formData.get('LNAME'),
+            'EMAIL': formData.get('EMAIL'),
+            'COMPANY': formData.get('COMPANY'),
+            'JOBTITLE': formData.get('JOBTITLE'),
+            'INDUSTRY': formData.get('INDUSTRY'),
+            'CHALLENGES': formData.get('CHALLENGES'),
+            'gdpr[e8166047db]': formData.get('gdpr[e8166047db]'),
+            'topics': Array.from(formData.getAll('topics')).join(',')
+        };
     }
 
     // Function to format data for Mailchimp
