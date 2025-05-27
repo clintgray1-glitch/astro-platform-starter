@@ -88,7 +88,8 @@ function initializeForm() {
                 if (!response.ok) {
                     throw new Error('Failed to submit form to Netlify');
                 }
-                return response.json();
+                // Don't try to parse JSON, just check if response is ok
+                return response.text();
             })
             .then(function(data) {
                 console.log('Form submission successful:', data);
