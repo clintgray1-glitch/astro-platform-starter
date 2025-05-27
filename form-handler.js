@@ -47,13 +47,73 @@ function generateReport() {
 // Generate report when form is submitted
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('.report-form');
-    if (form) {
+    const reportPreview = document.getElementById('report-preview');
+    const previewSection = document.getElementById('preview-section');
+    const backButton = document.getElementById('back-to-home');
+
+    if (form && reportPreview && previewSection && backButton) {
+        // Generate report when form is submitted
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Generate the report preview
             generateReport();
+            
+            // Show the preview section
+            previewSection.style.display = 'block';
+            
+            // Submit the form after showing the preview
+            setTimeout(function() {
+                form.submit();
+            }, 1000); // 1 second delay to ensure preview is visible
+        });
+
+        // Back button handler
+        backButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '#';
         });
     }
 });
+
+// Function to generate report content
+function generateReport() {
+    const form = document.querySelector('.report-form');
+    const formData = new FormData(form);
+    
+    const industry = formData.get('INDUSTRY');
+    const challenges = formData.get('CHALLENGES') || 'Not specified';
+    const topics = Array.from(formData.getAll('topics')).join(', ');
+    
+    const reportContent = `
+        <div class="report-header">
+            <h2>Custom Cybersecurity Report</h2>
+            <p>Generated for ${formData.get('FNAME')} ${formData.get('LNAME')} at ${formData.get('COMPANY')}</p>
+        </div>
+        
+        <div class="report-industry">
+            <h3>Industry Focus: ${industry}</h3>
+            <p>Based on your industry selection, we've tailored our recommendations to your specific needs.</p>
+        </div>
+        
+        <div class="report-topics">
+            <h3>Selected Topics of Interest</h3>
+            <p>${topics}</p>
+        </div>
+        
+        <div class="report-challenges">
+            <h3>Your Cybersecurity Challenges</h3>
+            <p>${challenges}</p>
+        </div>
+        
+        <div class="report-recommendations">
+            <h3>Custom Recommendations</h3>
+            <p>Our team will be in touch to provide detailed insights and solutions tailored to your specific needs.</p>
+        </div>
+    `;
+
+    reportPreview.innerHTML = reportContent;
+}
 
         // Update the report preview section
         reportPreview.innerHTML = reportContent;
