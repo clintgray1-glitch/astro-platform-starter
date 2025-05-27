@@ -357,131 +357,7 @@ nav ul li a.active:after {
     color: var(--white);
 }
 
-.hero-content p {
-    font-family: 'Raleway', sans-serif; /* Use Raleway for hero paragraph */
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-}
-
-.hero-content .accent-text {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-/* Trends Section */
-.trends {
-    padding: 80px 0;
-    background-color: var(--dark-bg);
-}
-
-.trends h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.trends .accent-text {
-    text-align: center;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-.section-intro {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 3rem;
-    color: var(--text-muted);
-}
-
-.trends-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 30px;
-}
-
-.trend-card {
-    background-color: var(--light-bg);
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: var(--card-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    border: 1px solid var(--border-color);
-    position: relative;
-    overflow: hidden;
-}
-
-.trend-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-.trend-card:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background-color: var(--primary-color);
-    transition: background-color 0.3s ease;
-}
-
-.trend-card[data-trend="ransomware"]:after {
-    background-color: var(--critical-color);
-}
-
-.trend-card[data-trend="supply-chain"]:after,
-.trend-card[data-trend="zero-day"]:after {
-    background-color: var(--high-color);
-}
-
-.trend-card[data-trend="authentication"]:after {
-    background-color: var(--medium-color);
-}
-
-.trend-card[data-trend="ai-defense"]:after {
-    background-color: var(--emerging-color);
-}
-
-.trend-card[data-trend="compliance"]:after {
-    background-color: var(--info-color);
-}
-
-.trend-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.trend-header h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0;
-}
-
-.severity {
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-    text-transform: uppercase;
-}
-
-.severity.critical {
-    background-color: rgba(239, 68, 68, 0.15);
-    color: var(--critical-color);
-}
-
-.severity.high {
-    background-color: rgba(249, 115, 22, 0.15);
-    color: var(--high-color);
-}
-
-.severity.medium {
-    background-color: rgba(245, 158, 11, 0.15);
+/* ... existing code ... */
     color: var(--medium-color);
 }
 
@@ -1445,6 +1321,99 @@ footer {
     .preview-container {
         padding: 25px;
     }
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+
+    .trend-card {
+        padding: 12px;
+    }
+
+    .trend-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .trend-footer {
+        font-size: 0.85rem;
+    }
+
+    .report-form {
+        padding: 20px;
+    }
+
+    .report-results {
+        padding: 20px;
+    }
+
+    .report-preview {
+        padding: 15px;
+    }
+}
+
+/* Form Styles */
+.form-success, .form-error {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 6px;
+    text-align: center;
+    display: none;
+}
+
+.form-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--emerging-color);
+}
+
+.form-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--critical-color);
+}
+
+.report-results {
+    margin-top: 40px;
+    padding: 30px;
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    display: none;
+}
+
+.report-preview {
+    background-color: white;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.report-preview h2, .report-preview h3 {
+    color: var(--primary-white-bg);
+    margin-bottom: 15px;
+}
+
+.report-preview p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.report-preview ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.report-preview li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.report-preview li:last-child {
+    border-bottom: none;
 }
 
 /* Report footer action buttons */
