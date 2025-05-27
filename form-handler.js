@@ -88,7 +88,9 @@ function initializeForm() {
             })
             .then(function(response) {
                 if (!response.ok) {
-                    throw new Error('Failed to submit form to Mailchimp');
+                    return response.json().then(data => {
+                        throw new Error(`Mailchimp error: ${data.error || response.statusText}`);
+                    });
                 }
 
                 // Hide form and show success message
@@ -100,7 +102,8 @@ function initializeForm() {
                 previewSection.style.display = 'block';
             })
             .catch(function(error) {
-                console.error('Error submitting form:', error);
+                console.error('Form submission error:', error);
+                formError.innerHTML = `<p>Oops! There was an error submitting the form: ${error.message}</p>`;
                 formError.style.display = 'block';
             });
         } catch (error) {
